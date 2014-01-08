@@ -1,6 +1,6 @@
 {
-	"name": "pottle",
-	"description": "Converts from Android/iOS localization files to Pottle and vice versa.",
+	"name": "pootle",
+	"description": "Converts from Android and iOS localization files to Pootle and vice versa.",
 	"author": "Bruno Farache <bfarache@gmail.com>",
 	"version": "0.0.1",
 	"keywords": [
@@ -11,10 +11,10 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/brunofarache/porttle-converter"
+		"url": "https://github.com/brunofarache/pootle-converter"
 	},
 	"preferGlobal": true,
-	"bin": "bin/pottle.js",
+	"bin": "bin/pootle.js",
 	"dependencies": {
 		"nconf": "0.6.9",
 		"xmldom": "0.1.17"

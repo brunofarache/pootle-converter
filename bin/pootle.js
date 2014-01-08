@@ -97,7 +97,7 @@ converters.ios = {
 
 var input = nconf.get('input'),
 	content = fs.readFileSync(input, { encoding: 'utf8' }),
-	format, pottle;
+	format, java;
 
 if (/.strings$/.test(input)) {
 	format = 'ios';
@@ -107,13 +107,13 @@ else if (/.xml$/.test(input)) {
 }
 else if (/.properties$/.test(input)) {
 	format = nconf.get('format');
-	pottle = true;
+	java = true;
 }
 
 var converter = converters[format],
 	result;
 
-if (pottle) {
+if (java) {
 	result = converter.to.call(converter, content);	
 }
 else {
