@@ -7,8 +7,7 @@ var nconf = require('nconf'),
 
 nconf.argv({
 	'format': {
-		alias: 'f',
-		'default': 'ios'
+		alias: 'f'
 	},
 	'input': {
 		alias: 'i'
