@@ -18,7 +18,7 @@ nconf.argv({
 var converters = {};
 
 converters.android = {
-	fromPottle: function(content) {
+	to: function(content) {
 		var template = '<?xml version="1.0" encoding="utf-8"?><resources></resources>',
 			doc = new parser().parseFromString(template),
 			lines = content.split('\n'),
@@ -49,7 +49,7 @@ converters.android = {
 		};
 	},
 
-	toPottle: function(content) {
+	from: function(content) {
 		var doc = new parser().parseFromString(content),
 			lines = doc.getElementsByTagName('string'),
 			result = '';
@@ -74,9 +74,9 @@ converters.android = {
 }
 
 converters.ios = {
-	fromPottle: function(content) {
+	to: function(content) {
 		content = content.replace(/=/g, '"="');
-		content = '"' + content.split('\n').join('";\n"') + ';"';
+		content = '"' + content.replace(/\n/g, '";\n"') + '";';
 
 		return {
 			content: content,
@@ -84,7 +84,7 @@ converters.ios = {
 		};
 	},
 
-	toPottle: function(content) {
+	from: function(content) {
 		content = content.replace(/"="/g, '=');
 		content = content.replace(/(^"|";$)/mg, '');
 
@@ -114,10 +114,10 @@ var converter = converters[format],
 	result;
 
 if (pottle) {
-	result = converter.fromPottle.call(converter, content);	
+	result = converter.to.call(converter, content);	
 }
 else {
-	result = converter.toPottle.call(converter, content);
+	result = converter.from.call(converter, content);
 }
 
 fs.writeFile(result.output, result.content);
