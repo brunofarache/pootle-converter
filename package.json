@@ -1,0 +1,10 @@
+{
+	"name": "pottle-converter",
+	"version": "0.0.1",
+	"bin": {
+		"gh": "bin/pottle.js"
+	},
+	"dependencies": {
+		"nconf": "0.6.9"
+	}
+}
