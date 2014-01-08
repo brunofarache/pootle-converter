@@ -4,7 +4,7 @@ This command-line tool helps converting Pootle translation files to Android (str
 
 ## Install
 
-```bash
+```
 	[sudo] npm install pootle -g
 ```
 
@@ -14,13 +14,13 @@ This command-line tool helps converting Pootle translation files to Android (str
 
 Android (strings.xml) to Java properties (Language.properties):
 
-```bash
+```
 	pootle -i strings.xml
 ```
 
 Java properties (Language.properties) to Android (strings.xml):
 
-```bash
+```
 	pootle -i Language.properties -f android
 ```
 
@@ -28,12 +28,12 @@ Java properties (Language.properties) to Android (strings.xml):
 
 iOS (Localizable.strings) to Java properties (Language.properties):
 
-```bash
+```
 	pootle -i Localizable.strings
 ```
 
 Java properties (Language.properties) to iOS (Localizable.strings):
 
-```bash
+```
 	pootle -i Language.properties -f ios
 ```
