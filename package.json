@@ -1,11 +1,23 @@
 {
-	"name": "pottle-converter",
+	"name": "pottle",
+	"description": "Converts from Android/iOS localization files to Pottle and vice versa.",
+	"author": "Bruno Farache <bfarache@gmail.com>",
 	"version": "0.0.1",
-	"bin": {
-		"gh": "bin/pottle.js"
+	"keywords": [
+		"android",
+		"converter",
+		"ios",
+		"translation"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/brunofarache/porttle-converter"
 	},
+	"preferGlobal": true,
+	"bin": "bin/pottle.js",
 	"dependencies": {
 		"nconf": "0.6.9",
 		"xmldom": "0.1.17"
-	}
+	},
+	"license": "MIT"
 }

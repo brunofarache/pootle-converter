@@ -1,4 +1,4 @@
-'use strict';
+#!/usr/bin/env node
 
 var nconf = require('nconf'),
 	fs = require('fs'),
