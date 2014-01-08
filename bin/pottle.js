@@ -10,31 +10,53 @@ nconf.argv({
 	},
 	'input': {
 		alias: 'i'
-	},
-	'output': {
-		alias: 'o',
-		'default': 'Language.properties'
 	}
 });
 
 var converters = {};
 
 converters.ios = {
+	fromPottle: function(content) {
+		content = content.replace(/=/g, '"="');
+		content = '"' + content.split('\n').join('";\n"') + ';"';
+
+		return {
+			content: content,
+			output: 'Localizable.strings'
+		};
+	},
+
 	toPottle: function(content) {
 		content = content.replace(/"="/g, '=');
 		content = content.replace(/(^"|";$)/mg, '');
 
-		return content;
+		return {
+			content: content,
+			output: 'Language.properties'
+		};
 	}
 }
 
-var format = nconf.get('format'),
-	input = nconf.get('input'),
-	output = nconf.get('output'),
-	content = fs.readFileSync(input, { encoding: 'utf8' });
+var input = nconf.get('input'),
+	content = fs.readFileSync(input, { encoding: 'utf8' }),
+	format, pottle;
 
-var converter = converters[format];
+if (/.strings$/.test(input)) {
+	format = 'ios';
+}
+else if (/.properties$/.test(input)) {
+	format = nconf.get('format');
+	pottle = true;
+}
 
-content = converter.toPottle.call(converter, content);
+var converter = converters[format],
+	result;
 
-fs.writeFile(output, content);
+if (pottle) {
+	result = converter.fromPottle.call(converter, content);	
+}
+else {
+	result = converter.toPottle.call(converter, content);
+}
+
+fs.writeFile(result.output, result.content);
