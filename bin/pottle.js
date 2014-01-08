@@ -1,7 +1,9 @@
 'use strict';
 
 var nconf = require('nconf'),
-	fs = require('fs');
+	fs = require('fs'),
+	parser = require('xmldom').DOMParser,
+	serializer = require('xmldom').XMLSerializer;
 
 nconf.argv({
 	'format': {
@@ -14,6 +16,62 @@ nconf.argv({
 });
 
 var converters = {};
+
+converters.android = {
+	fromPottle: function(content) {
+		var template = '<?xml version="1.0" encoding="utf-8"?><resources></resources>',
+			doc = new parser().parseFromString(template),
+			lines = content.split('\n'),
+			root = doc.childNodes[1];
+
+		for (var i = 0; i < lines.length; i++) {
+			var line = lines[i],
+				pair = line.split('='),
+				key	= pair[0],
+				value = pair[1],
+				child = doc.createElement('string');
+
+			child.setAttribute('name', key);
+			child.appendChild(doc.createTextNode(value));
+
+			root.appendChild(child);
+		}
+
+		content = new serializer().serializeToString(doc);
+
+		content = content.replace(/<resources>/, '\n<resources>');
+		content = content.replace(/<\/resources>/, '\n</resources>');
+		content = content.replace(/<string /g, '\n\t<string ');
+
+		return {
+			content: content,
+			output: 'strings.xml'
+		};
+	},
+
+	toPottle: function(content) {
+		var doc = new parser().parseFromString(content),
+			lines = doc.getElementsByTagName('string'),
+			result = '';
+
+		for (var i = 0; i < lines.length; i++) {
+			var line = lines[i];
+
+			if (i > 0) {
+				result += '\n';
+			}
+
+			result += line.getAttribute('name');
+			result += '=';
+			result += line.textContent;
+		}
+
+		return {
+			content: result,
+			output: 'Language.properties'
+		}; 
+	}
+}
 
 converters.ios = {
 	fromPottle: function(content) {
@@ -43,6 +101,9 @@ var input = nconf.get('input'),
 
 if (/.strings$/.test(input)) {
 	format = 'ios';
+}
+else if (/.xml$/.test(input)) {
+	format = 'android';
 }
 else if (/.properties$/.test(input)) {
 	format = nconf.get('format');

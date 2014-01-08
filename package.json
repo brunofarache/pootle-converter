@@ -5,6 +5,7 @@
 		"gh": "bin/pottle.js"
 	},
 	"dependencies": {
-		"nconf": "0.6.9"
+		"nconf": "0.6.9",
+		"xmldom": "0.1.17"
 	}
 }
